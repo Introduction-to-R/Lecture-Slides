@@ -10,8 +10,8 @@ toc_float:
 smooth_scroll: true
 ---
   
-  ```{r setup, include = FALSE, warning = FALSE}
-library(plyr)
+```{r setup, include = FALSE, warning = FALSE}
+library(dplyr)
 library(tibble)
 ```
 
@@ -35,7 +35,7 @@ These categories determine how to best solve the missing data issues. Some basic
   - If the amount of NAs > 5% and they are MCAR, it is better to use simple imputation methods such as mean imputation and interpolation
   - If they are MAR or MNAR it is often advised to rely on more complex imputation methods such as MICE (multiple imputation by chained equations)
   
-## Simple methods for missing data handling   
+## Simple methods for missing data treatment
 
 
 
