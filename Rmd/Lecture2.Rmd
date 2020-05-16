@@ -9,8 +9,40 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Basic R syntax: Base R
+## Programme
 
+In this lecture, we will familiarize ourselves with:
+
+- the basic syntax of R
+- types of objects
+- subsetting operations in base R
+s
+
+## Basic R syntax: Calculations
+
+In its most basic capacity, R can serve as a calculator:
+
+```{r calculator}
+5+5
+
+1+2
+
+3-4
+
+4^2
+```
+
+## Basic R syntax: Variable assignment
+
+Oftentimes, we might want to assign the value of a calculation to a certain _object_, and continue using the object. To that end, there are three different ways to do this in R: 
+
+```{r}
+x <- 5 + 1
+
+x = 4+3
+
+5 - 3/2 -> x
+```
 Now, let us try to acquaint ourselves with the basic syntax of R. R contains several example dataset with which we can practise. For example, here is Iris:
 
 ```{r}
