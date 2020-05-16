@@ -84,15 +84,15 @@ NLclean <- NL %>%
             select(4,5)
 
 str(NLclean)
+
 summary(NLclean)
+
 head(NLclean)
 
 ```
 
 
-![](data/lecture1d_2.png)
-
-Succes! We now have much easier to interpret dataset which shows the GDP per Capita for the Netherlands on a yearly basis for the period 1800-2010. More importantly, it tells us that there are 14 missing values (NAs) in the 'Data' variable. In other words for 14 years out of the 211, we do not have any information regarding the GDP per Capita. Uncovering these NAs is a crucial step.
+Success! We now have much easier to interpret dataset which shows the GDP per Capita for the Netherlands on a yearly basis for the period 1800-2010. More importantly, it tells us that there are 14 missing values (NAs) in the 'Data' variable. In other words for 14 years out of the 211, we do not have any information regarding the GDP per Capita. Uncovering these NAs is a crucial step.
 
 
 ## Deleting data, relying on built-in NA handling features
@@ -101,13 +101,14 @@ As we briefly mentioned, we can opt to simply ignore these 14 NAs, or we can sim
 
 ```{r}
 NLomit <- na.omit(NLclean)
+
 summary(NLomit)
 
 ```
 
 As you can see, the dataset now consists of only 197 observations, and no longer has any NAs.
 
-In additon many function in R have a built-in NA handling feature designed specificially for this purpose. It is important to note that per default this function is often set to ignore the missing data. The function 'boxplot' for example has an argument 'na.action' which by default is set to NULL, indicating that it will ignore NAs.
+In additon many functions in R have a built-in NA handling feature designed specificially for this purpose. It is important to note that per default this function is often set to ignore the missing data. The function 'boxplot' for example has an argument 'na.action' which by default is set to NULL, indicating that it will ignore NAs.
 
 If you feel confident you can ignore NA (i.e. because they are < 5% of all observations and MCAR) you can always check the vignette of any given function using '?' to see whether the function you wish to use has a built-in NA handling feature and what its default settings is set to ignore NAs. You can then proceed to use the function like you intended to.
 
@@ -120,7 +121,6 @@ p1
 
 ```
 
-![](data/lecture1d_3.jpeg)
 
 While the boxplot might look rather strange, due to reasons which we will ignore for now, the function itself worked just fine. It ignored the missing values and plotted the boxplot regardless. So this is one, very basic way to cope with NAs in your dataset.
 
@@ -128,10 +128,10 @@ While the boxplot might look rather strange, due to reasons which we will ignore
 
 Now, we introduce some simple imputation methods to deal with missing data. As long as the NAs are MCAR and below, or slighly above, 5% of all observations, these methods provide a reasonable solution.
 
-There are several packages available which offer such a solution, but the most commonly used package is the 'zoo' package. It contains many functions for missing data handling, such as:
-- na.locf(), which is a generic function for replacing each NA with the most recent non-NA prior to it
-- na.spline() & na.approx(), which are generic functions for replacing each NA with interpolated values
-- na.aggregate(), which is a generic function for replacing each NA with aggregated values
+There are several packages available which offer such a solution, but the most commonly used package is the `zoo` package. It contains many functions for missing data handling, such as:
+- `na.locf()`, which is a generic function for replacing each NA with the most recent non-NA prior to it
+- `na.spline()` & `na.approx()`, which are generic functions for replacing each NA with interpolated values
+- `na.aggregate()`, which is a generic function for replacing each NA with aggregated values
 
 As always you can find more information about these functions by reading their individual vignettes.
 
