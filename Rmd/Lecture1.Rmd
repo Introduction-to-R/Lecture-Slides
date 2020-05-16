@@ -208,17 +208,24 @@ install.packages('tidyverse')
 ```
 
 ## Installation of `tidyverse`
+
 After we've installed our package, which just means that R put the appropriate files in the appropriate folder on your computer, we have to load it before we can use its functions. Loading a package is done as follows:
 
-```{r}
+```{r warning = FALSE, message = FALSE}
 library(tidyverse)
 ```
 
 And it will give you some output akin to the following picture:
 
-![](https://raw.githubusercontent.com/basm92/R_Introduction/master/Miscellaneous/lecture1_3.png)
+![](data/lecture1_3.png)
 
-This is an overview of the attached packages in the tidyverse, followed by an overview of **Conflicts**. Conflicts happen when two packages use the same functions. R studio automatically loads a number of fundamental packages without letting you know, among which is __stats__. Now, `r library(tidyverse)` loads __dplyr__, and __dplyr__ contains the functions `filter()` and `lag()`, which are also functions in __stats__! Therefore, R decides to replace the functions in __stats__ by the functions __dplyr__. Why not the other way around? Because we've loaded __dplyr__ after __stats__. 
+## Packages
+
+This is an overview of the attached packages in the `tidyverse`, followed by an overview of **Conflicts**. Conflicts happen when two packages use the same function names (we'll get to this in a future lecture). 
+
+In particular, RStudio automatically loads a number of fundamental packages without letting you know, among which is __stats__. `library(tidyverse)` loads __dplyr__, and __dplyr__ contains the functions `filter()` and `lag()`, which are also functions in __stats__! 
+
+Therefore, R decides to replace the functions in __stats__ by the functions __dplyr__. Why not the other way around? Because we've loaded __dplyr__ after __stats__. 
 
 In general, conflicts can be seen using the following command:
 
@@ -226,10 +233,20 @@ In general, conflicts can be seen using the following command:
 conflicts()
 ```
 
+## Installing other packages
+
 We can also install several packages at the same time. In order to do so, we have to __concatenate__ the names of various packages to the argument of `install.packages`:
 
 ```{r eval = FALSE}
-install.packages(c("stargazer", "lubridate"))
+install.packages(c("stargazer", "zoo"))
+```
+
+_Concatenation_ is used quite often in R. Every time you want to tell a function in R to evaluate apply itself to not only 1, but more arguments, you have to concatenate them. We will talk about basic R syntax in the next lecture, but consider this:
+
+```{r}
+print(1,2)
+
+print(c(1,2))
 ```
 
 
