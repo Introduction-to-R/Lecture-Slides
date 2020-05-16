@@ -31,7 +31,7 @@ These categories determine how to best solve the missing data issues. Some basic
   
 # Simple methods for missing data treatment
 
-# Uncovering missing data
+## Uncovering missing data
 
 Let us import some historical data  using the `readxl` package, we introduced in a previous lecture. As we will soon find out, this datasets contains many missing values (NAs). We will then discuss some simple methods to address this issue.
 
@@ -92,13 +92,84 @@ head(NLclean)
 
 ![](data/lecture1d_2.png)
 
-Succes! We now have much easier to interpret dataset which shows the GDP per Capita for the Netherlands on a yearly basis for the period 1800-2010. More importantly, it tells us that there are 14 missing values (NAs). Uncovering these NAs is a crucial step.
+Succes! We now have much easier to interpret dataset which shows the GDP per Capita for the Netherlands on a yearly basis for the period 1800-2010. More importantly, it tells us that there are 14 missing values (NAs) in the 'Data' variable. In other words for 14 years out of the 211, we do not have any information regarding the GDP per Capita. Uncovering these NAs is a crucial step.
 
-# Deleting data, or relying on built-in NA handling features
+## Deleting data, relying on built-in NA handling features
 
-Many function in R have a built-in NA handling feature. It is important to note that per default this function is often set to true, which means that the function will simply ignore the missing data. 
+As we briefly mentioned, we can opt to simply ignore these 14 NAs, or we can simply dete them using the 'na.omit' function
+
+```{r}
+NLomit <- na.omit(NLclean)
+summary(NLomit)
+
+```
+
+As you can see, the dataset now consists of only 197 observations, and no longer has any NAs.
+
+In additon many function in R have a built-in NA handling feature designed specificially for this purpose. It is important to note that per default this function is often set to ignore the missing data. The function 'boxplot' for example has an argument 'na.action' which by default is set to NULL, indicating that it will ignore NAs.
+
+If you feel confident you can ignore NA (i.e. because they are < 5% of all observations and MCAR) you can always check the vignette of any given function using '?' to see whether the function you wish to use has a built-in NA handling feature and what its default settings is set to ignore NAs. You can then proceed to use the function like you intended to.
+
+Let's now look at a concrete example
+
+```{r}
+p1 <- boxplot(NLclean)
+
+p1
+
+```
+
+![](data/lecture1d_3.jpeg)
+
+While the boxplot might look rather strange, due to reasons which we will ignore for now, the function itself worked just fine. It ignored the missing values and plotted the boxplot regardless. So this is one, very basic way to cope with NAs in your dataset.
+
+## Simple imputation methods dedicated to NA handling
+
+Now, we introduce some simple imputation methods to deal with missing data. As long as the NAs are MCAR and below, or slighly above, 5% of all observations, these methods provide a reasonable solution.
+
+There are several packages available which offer such a solution, but the most commonly used package is the 'zoo' package. It contains many functions for missing data handling, such as:
+- na.locf(), which is a generic function for replacing each NA with the most recent non-NA prior to it
+- na.spline() & na.approx(), which are generic functions for replacing each NA with interpolated values
+- na.aggregate(), which is a generic function for replacing each NA with aggregated values
+
+As always you can find more information about these functions by reading their individual vignettes.
+
+Let us start by installing the `zoo` package.
+
+```{r eval = FALSE}
+install.packages('zoo')
+```
+
+And don't forget to 'turn it on':
+
+```{r}
+library(zoo)
+```
+
+While all of these function have their advantages and disadvantages which you should carefully take into consideration when using them in your own analysis, a detailed discussion of all of these, will take us far beyond the introductory scope of this course. Therefore, we will focus our attention to the 'na.locf' function which is primary used for time series analysis.
+
+Let us now take a closer look at what this function does.
+
+```{r}
+NLfull <- na.locf(NLclean)
+summary(NLclean)
+summary(NLfull)
+
+```
+
+![](data/lecture1d_4.png)
+
+As you can see, when we compare the summary statistics of NLfull compared to NLclean, it no longer has any NAs. Clearly, the imputation function worked as it was intended to.
+
+## Summary
+
+Always check the presence of NAs using 'str' and 'summary'. 
+
+Address NAs, by
+- relying on built-in handling features: e.g. 'na.action' = NULL
+- omitting / deleting NAs from the data: e.g. 'na.omit'
+- simple imputationg methods: e.g. 'na.locf' for time series
 
 
-
-
+# Part 2: Outliers
 
