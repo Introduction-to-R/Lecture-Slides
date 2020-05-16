@@ -2,11 +2,12 @@
 title: "Lecture 1: Installing R and RStudio, Sneak Preview"
 author: "Bas Machielsen"
 date: "3/2/2020"
-output: html_document
+output: beamer_presentation
 ---
 
 ```{r setup, include = FALSE}
 library(lubridate)
+library(kableExtra)
 ```
 ## Introduction
 
@@ -14,7 +15,7 @@ This lecture covers three aspects:
 
 - Installing R and R Studio
 - Familiarizing ourselves with the layout and functionality of RStudio
-- A sneak previews of R's possibilities
+- A sneak preview of R's possibilities
 
 ## What is R?
 
@@ -55,9 +56,8 @@ R usage is on the rise! What are the reasons?
 
 ## Installing RStudio
 
-- Go to https://rstudio.com/products/rstudio/download/#download 
-- Or Google: 
-  > Download RStudio
+- Go to [the official RStudio website](https://rstudio.com/products/rstudio/download/#download) 
+- Or Google: Download RStudio
 
 ![](data/lecture1_1.png)
 
@@ -107,7 +107,7 @@ By default, RStudio has 4 panels:
 
 What do you do with each of them?
 
-## RStudio User Interface
+## RStudio User Interface [1]
 
 - Console:
   
@@ -116,6 +116,8 @@ What do you do with each of them?
 - A script editor:
 
   The script editor is the place where you enter your code with the objective of storing it. If you don't see it, click the + icon on the upper left of Rstudio -> New R Script.
+  
+## RStudio User Interface [2]
   
 - Environment:
 
@@ -138,11 +140,11 @@ In RStudio, we go to File > Open File, and we select the markdown document `Lect
 
 We will start by specifying our **working directory**. Our working directory determines from which file path we will create, or load our files by default. It is advisable to put your work somewhere on a hard-drive. Sometimes, a network server frustrates writing and saving files from R to a server-environment. You can see your default working directory by the following command:
 
-```{r}
+```{r eval = FALSE}
 getwd()
 ```
 
-Put your mouse cursor in the above chunk, and press CTRL+Enter, or alternatively, type `getwd()` in the console, and press enter. 
+Put your mouse cursor in the above chunk, and press CTRL+Enter (cmd + Enter), or alternatively, type `getwd()` in the console, and press enter. 
 
 ## Setting our Working Directory
 
@@ -181,7 +183,7 @@ Alternatively, you can change your *.Rprofile* file. An *.Rprofile* file is a sc
 The easiest way to change your .Rprofile is the following:
 
 ```{r eval = FALSE}
-usethis:: edit_r_profile()
+usethis::edit_r_profile()
 ```
 
 **Don't remove anything from this file**, and simply add the command:
@@ -199,13 +201,18 @@ Let's go to Tools > Global Options > Appearance, pick a nice Editor theme and/or
 
 Now, our RStudio is fully set-up! We can continue by installing our **first packages!**
 
-Packages contain functions that help us in doing what we want to do in an efficient, and often easy way. Not using packages comes down to attempting to reinvent the wheel: we would have to do everything using base R syntax, whereas some other people have already used base R syntax to write very complicated functions, of which we can make use.
-
 Let us install the __tidyverse__! In fact, tidyverse is not so much a package as it is a **set** of packages facilitating data treatment. Try and run the following code chunk:
 
 ```{r eval = FALSE}
 install.packages('tidyverse')
 ```
+
+## Using packages
+
+Packages contain functions that help us in doing what we want to do in an efficient, and often easy way. 
+Not using packages comes down to attempting to reinvent the wheel
+
+We would have to do everything using base R syntax, whereas some other people have already used base R syntax to write very complicated functions, of which we can make use.
 
 ## Installation of `tidyverse`
 
@@ -249,305 +256,91 @@ print(1,2)
 print(c(1,2))
 ```
 
+## Brief showcase of R's capabilities
 
-## Basic R syntax: Base R
+Now we've finished our start-up, I will show some of R's standard and non-standard functionalities:
 
-Now, let us try to acquaint ourselves with the basic syntax of R. R contains several example dataset with which we can practise. For example, here is Iris:
+- Data wrangling (Data tidying)
+- Data visualization
+- Web scraping
 
-```{r}
-tibble(iris)
-```
+## Data wrangling
 
-Once we run this chunk, R shows us a dataset. In order to work efficiently, we often "save" the dataset, so we can execute functions on it:
+Let's have a look at a dataset with historical GDP per capita numbers:
 
-```{r}
-mydata <- iris
-```
+```{r dataimport}
+library(readxl)
 
-Now, in the Environment part of Rstudio, you should see something like this:
+datasource <- "./data/GDPperCapita_Compact.xlsx"
 
-![](https://raw.githubusercontent.com/basm92/R_Introduction/master/Miscellaneous/lecture1_4.png)
+gdppercapita <- read_xlsx(datasource)
 
-Try to click on it, and see what happens! We can a miniature Excel sheet with the help of which we can inspect our data. Editing our data, however, is something we do by using code. 
-![](https://raw.githubusercontent.com/basm92/R_Introduction/master/Miscellaneous/lecture1_5.png)
-
-We have already seen that we can view the data by using the built-in data viewer, and we can also view the data by simply typing `iris` or, after we've stored `iris` in `mydata`, `mydata` in the console. What if we want to see only the first 10 observations?
-
-```{r}
-head(mydata, 10)
 ```
 
 
-```{r}
-mydata[1:10,]
+## Data wrangling [2]
+
+This is what the dataset looks like:
+
+```{r tablegen, echo = FALSE, results = 'asis'}
+kable(gdppercapita[1:10,1:7]) %>%
+  kable_styling(position = "center")
 ```
 
-Both of these commands do exactly the same! If you have a data frame, we can select rows n to m __rows__ by using `data[n:m,]` and columns p to q by using `data[,p:q]`:
+## Data wrangling [3]
 
-```{r eval = FALSE}
-mydata[,2:4]
+And this is how easy it is to 'pivot' the data into long format:
+
+```{r pivot}
+library(tidyverse) 
+range <- 3:518 #Which columns do you want to wrangle
+
+gdppercapita <- gdppercapita %>%
+  pivot_longer(all_of(range), 
+               names_to = "year", 
+               values_to = "gdppercapita")
 ```
 
-But what if we can to select only column 1 and 5, for example?
+## Data wrangling [4]
 
-```{r eval = FALSE}
-mydata[,c(1,5)]
+This is the result:
+
+```{r tablegen2}
+kable(gdppercapita[1:10,])
 ```
 
-In that case, we have to concatenate both numbers. We can also uses the variable names to refer to the columns:
+## Data visualization
 
-```{r eval= FALSE}
-mydata[,c("Sepal.Length", "Species")]
+Let us now select some countries and create a graph:
+
+```{r graphsetup, eval = FALSE, warning = FALSE, message = FALSE}
+countries <- c("Netherlands", "Germany")
+gdppercapita %>%
+  mutate(year = as.numeric(year)) %>%
+  filter(is.element(`country name`, countries), 
+         year > 1800) %>%
+  ggplot(aes(x = year, 
+             y = gdppercapita, 
+             group = `country name`,
+             color = `country name`)) + geom_line()
+
 ```
 
-As before, we can also "save" this part of the data and store it:
+## Data visualization [2]
 
-```{r}
-mypart <- mydata[,c(1,5)]
+```{r graphmake, include = FALSE, warning = FALSE, message = FALSE}
+countries <- c("Netherlands", "Germany")
+gdppercapita %>%
+  mutate(year = as.numeric(year)) %>%
+  filter(is.element(`country name`, countries), 
+         year > 1800) %>%
+  ggplot(aes(x = year, 
+             y = gdppercapita, 
+             group = `country name`,
+             color = `country name`)) + geom_line()
+
 ```
 
-We can also select data in other ways: suppose we only want to select the rows of the data for which the species is equal to `versicolor`:
+## Animated graph
 
-```{r}
-mypart[mypart$Species == "versicolor",]
-```
-
-That is a really long output! We can also "stack" commands in the following way:
-
-```{r}
-head(mypart[mypart$Species == "versicolor",])
-
-tail(mypart[mypart$Species == "versicolor",])
-```
-
-Let us decompose the code: we instruct R to select the dataset `mypart`, then condition the observations on the rows (as indicated by the final comma) of `mypart$Species` to be equal to "versicolor". 
-
-Simultaneously, we learned that we can select variables in a shorthand way using the `$` operator:
-
-```{r}
-mypart$Species
-```
-
-## Object classes
-
-Remember we've just saved two objects (if you don't remember, look at the upper left of your Rstudio window): mydata, and mypart. 
-
-```{r}
-class(mydata)
-```
-
-My data is a so-called data.frame. A data frame is a little bit like an excel sheet: it is an all-encompassing object class that can contain within itself objects of other classes. What are objects of other classes?
-
-```{r}
-numbers <- 1:10
-
-class(numbers)
-```
-
-```{r}
-numbers2 <- seq(from = -3, to = 6, by = 0.02)
-
-class(numbers)
-```
-
-```{r}
-words <- c("Hello", "I", "am", "Bas")
-
-class(words)
-```
-
-```{r}
-class("Netherlands")
-
-class(c(1, "test"))
-
-a <- 1:4
-class(a)
-
-class(a) <- "character"
-class(a)
-
-#Factors
-factor(1:3)
-b <- factor(c(1, 2, 1, 2, 1, 2))
-
-b
-
-class(b)
-levels(b)
-
-
-#Logicals
-x <- 1
-y <- 3
-
-x == 2
-x == 1
-
-x <= 4
-x > 5
-
-x + y == 4
-x / y == 0.33
-
-x / y == 1/3
-
-mydata$Species == "versicolor"
-```
-
-Why are classes important? Because functions only work on objects of certain classes!
-
-## Functions
-
-Let us try to use some functions to understand what they are! Suppose we want to calculate the mean of `numbers2`, which we just created? How do we do that? Type `?mean` in the console, and hit enter. 
-
-Now, the help tab will open and will give us a small description of what arguments mean needs: we only need 'an R object', but "there are methods for numeric/logical vectors and date, date-time and time interval objects." What does this mean?
-
-```{r}
-mean(numbers2)
-
-sum(numbers2)
-
-plot(numbers2)
-
-plot(numbers2^2)
-```
-
-but: 
-
-```{r}
-mean(words)
-```
-
-## Data frames and tibbles
-
-Let us now return to the practicalities and concern ourselves with dataframes. Most likely, your data will be a dataframe, because it contains variables from different classes. 
-
-### Data frames
-
-A data frame is a table or a two-dimensional array-like structure in which each column contains values of one variable and each row contains one set of values from each column.
-
-Following are the characteristics of a data frame.
-
-   - The column names should be non-empty.
-   - The row names should be unique.
-   - The data stored in a data frame can be of numeric, factor or character type.
-   - Each column should contain the same number of data items.
-
-A quick look at a dataframe:
-
-```{r}
-class(mydata)
-
-str(mydata)
-```
-
-It is very easy to add variables to a data frame using various functions. Let us use the `mutate` function from the __dplyr__ package, and see how we can do this:
-
-```{r eval = FALSE}
-mutate(mydata, Sepal.Surface = Sepal.Length * Sepal.Width)
-```
-
-In words, we have told R: take the dataframe which I've stored under `mydata`, and mutate (change) it by adding a new variable, Sepal.Surface, which is the product of length and width. However, what I didn't do is store this new dataframe somewhere. `mydata`, therefore, does not contain this newly defined variable. I can choose to either overwrite `mydata`, or create a new dataframe that contains the new variable:
-
-```{r}
-mydata2 <- mutate(mydata, Sepal.Surface = Sepal.Length * Sepal.Width)
-
-
-head(mydata2, 10)
-```
-
-Let us now look at a particularly useful function from __dplyr__, `group_by`: 
-
-```{r}
-groupeddata<- group_by(mydata2, Species)
-
-is.grouped_df(groupeddata)
-
-summarise(groupeddata, mean = mean(Sepal.Surface))
-```
-
-### Tibbles
-
-Tibbles are a useful way of showing your data if you are in a hurry, if you want to check your programming, and you just want to have a brief look in the console to find out what the data looks like.
-
-(All of this section is almost verbatim from the __tibble__ vignette:)
-
-Tibbles are a modern take on data frames. They keep the features that have stood the test of time, and drop the features that used to be convenient but are now frustrating (i.e. converting character vectors to factors).
-
-- It never changes an input’s type (i.e., no more stringsAsFactors = FALSE!).
-
-- It never adjusts the names of variables
-
-- It evaluates its arguments lazily and sequentially
-
-```{r}
-library(tibble)
-
-# First I define x, and then I use that definition of x to generate y
-tibble(x = 1:5, y = x^2)
-```
-
-### Tibbles vs data frames
-
-There are three key differences between tibbles and data frames: printing, subsetting, and recycling rules.
-
-- When you print a tibble, it only shows the first ten rows and all the columns that fit on one screen. 
-
-- Tibbles are quite strict about subsetting (not important for now)
-
-- When constructing a tibble, only values of length 1 are recycled. The first column with length different to one determines the number of rows in the tibble, conflicts lead to an error. 
-
-
-```{r eval = FALSE}
-tibble(a = 1, b = 1:3)
-
-tibble(a = 1:3, c = 1:2)
-```
-
-
-## The %>% Operator
-
-From the datacamp website: 
-
-> R is a functional language, which means that your code often contains a lot of parenthesis, ( and ). When you have complex code, this often will mean that you will have to nest those parentheses together. This makes your R code hard to read and understand. Here's where %>% comes in to the rescue!
-
-What does this mean? 
-
-> You can use the %>% operator with standard R functions — and even your own functions — too. The rules are simple: the object on the left hand side is passed as the first argument to the function on the right hand side. So: 
-
-```{r eval = FALSE}
-my.data %>% 
-    my.function 
-
-#is the same as 
-my.function(my.data)
-
-#and 
-my.data %>% 
-  my.function(arg=value) 
-
-#is the same as 
-my.function(my.data, arg=value)
-```
-
-Let us now try to do the same thing as before: get the mean of `Sepal.Surface` from `mydata2`, this time using the pipeing operator: 
-
-```{r}
-mydata2 %>%
-  group_by(Species) %>%
-  summarise(mean = mean(Sepal.Surface))
-```
-
-To finish this lecture, let us create a fully-fledged descriptive statistics table manually. Don't worry: we don't have to do this, there are hundreds of packages which implement this kind of table with one function call:
-
-```{r}
-mydata2 %>%
-  group_by(Species) %>%
-  summarise(mean = mean(Sepal.Surface), 
-            sd = sd(Sepal.Surface), 
-            median = median(Sepal.Surface), 
-            min = min(Sepal.Surface), 
-            max = max(Sepal.Surface), 
-            n = n())
-```
+Hello
