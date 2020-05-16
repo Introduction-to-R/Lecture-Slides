@@ -256,13 +256,58 @@ boxplot.stats(NLfull$Data)
 
 ```
 
+
+![](data/lecture1d_3.jpeg)
+
+
 ![](data/lecture1d_6.png)
+
 
 This shows the aformentioned summary statistics ($stats), e.g. median, first and thid quartile. It also shows the number of observations ($n), the IQR ($conf) and the outliers ($out). Please be aware however that many of these values might be false positives. They could be well within the distribution and should not be marked as outliers which one should ignore or omit from the dataset.
 
 ## More complicated approaches to detect outliers: Outliers package
 
-The 'outliers' package provides much more complicated tools to detect outliers 
+The 'outliers' package provides much more complicated tools to detect outliers. These include:
+- chisq.out.test, which preforms a a chisquared test for detection of one outlier in a vector,
+- dixon.test, which performs several variants of Dixon test for detecting outlier in data sample.
+- outlier, which finds the value with largest difference between it and sample mean, which can be an outlier.
+
+
+By far the most intuitive of these function is the last one, 'outlier', let us therefore look at this function more closely. If you wish to know more about these functions, you can always read their corresponding vignettes.
+
+As always, we have to start by installing the `outliers` package.
+
+```{r eval = FALSE}
+install.packages('outliers')
+```
+
+And then 'turn it on':
+
+```{r}
+library(outliers)
+```
+
+Let us now look wat this function does in practice.
+
+
+```{r}
+
+outlier(NLfull)
+
+```
+
+Voila, it tells us that the GDP Per Capita for 2010, 166955 is an outlier, it could therefore potentially be ignored, omitted or replaced for further data analysis.
+
+
+## Summary
+
+We have presented three relative simple ways to detect outliers for an univariate dataset. 
+
+- The Three Sigma Rule
+- Boxplots
+- Tests from the 'outliers' package
+
+It is important to keep in mind that all of these methods have their downsides and should only be used with extreme caution!
 
 
 
@@ -285,9 +330,5 @@ The 'outliers' package provides much more complicated tools to detect outliers
 
 
 
-
-
-
-## Simple approaches to detect outliers: Three Sigma Rule and Boxplots, 
 
 
