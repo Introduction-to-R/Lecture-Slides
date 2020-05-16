@@ -47,7 +47,7 @@ And don't forget to 'turn it on':
 library(readxl)
 ```
 
-Now, let us import the dataset using 'read_xls' command:
+Now, let us import the dataset using 'read_excel' command:
 
 ```{r}
 NL <- read_excel("data/Netherlands_GDPperCapita_TerritorialRef_1946_2012_CCode_528(1).xlsx")
@@ -94,11 +94,8 @@ head(NLclean)
 
 Succes! We now have much easier to interpret dataset which shows the GDP per Capita for the Netherlands on a yearly basis for the period 1800-2010. More importantly, it tells us that there are 14 missing values (NAs) in the 'Data' variable. In other words for 14 years out of the 211, we do not have any information regarding the GDP per Capita. Uncovering these NAs is a crucial step.
 
-<<<<<<< HEAD
+
 ## Deleting data, relying on built-in NA handling features
-=======
-## Deleting data, or relying on built-in NA handling features
->>>>>>> f979f919239d5cadae81798057bb651356eddf58
 
 As we briefly mentioned, we can opt to simply ignore these 14 NAs, or we can simply dete them using the 'na.omit' function
 
