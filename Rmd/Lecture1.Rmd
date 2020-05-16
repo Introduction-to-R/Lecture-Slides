@@ -2,7 +2,7 @@
 title: "Lecture 1: Installing R and RStudio, Sneak Preview"
 author: "Bas Machielsen"
 date: "3/2/2020"
-output: beamer_presentation
+output: html_document
 ---
 
 ```{r setup, include = FALSE}
