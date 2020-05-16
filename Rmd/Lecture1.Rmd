@@ -1,28 +1,68 @@
 ---
-title: "Lecture 1a: Installing, R Fundamentals"
+title: "Lecture 1: Installing R and RStudio, Sneak Preview"
 author: "Bas Machielsen"
 date: "3/2/2020"
-output:
-  html_document:
-    toc: true
-    toc_float:
-      collapsed: false
-      smooth_scroll: true
+output: html_document
 ---
 
+```{r setup, include = FALSE}
+library(lubridate)
+```
 ## Introduction
 
-This lecture covers three aspects: installing R and Rstudio, familiarizing ourselves with basic R syntax, learn about objects, object classes and functions. 
+This lecture covers three aspects: 
 
-## Installing R and Rstudio
+- Installing R and R Studio
+- Familiarizing ourselves with the layout and functionality of RStudio
+- A sneak previews of R's possibilities
+
+## What is R?
+
+Wikipedia: 
+
+> R is a programming language and free software environment for statistical computing and graphics supported by the R Foundation for Statistical Computing.[6] The R language is widely used among statisticians and data miners for developing statistical software[7] and data analysis.[8] Polls, data mining surveys, and studies of scholarly literature databases show substantial increases in popularity;[9] as of February 2020, R ranks 13th in the TIOBE index, a measure of popularity of programming languages.[10] 
+
+## Popularity of R
+
+![](data/Screen Shot 2020-05-16 at 12.26.53.png)
+
+## Popularity of R
+
+R usage is on the rise! What are the reasons?
+
+- Accessibility
+- Open Source
+- Large community of programmers
+- Amazing Functionality:
+  - Statistics
+  - Machine Learning
+  - OCR
+  - Data Visualization
+  - Web Scraping
+  - Text Mining
+  
+## Installing R 
+
+- R is the **programming language**, RStudio is a client that makes it accessible.
+- Hard to imagine programming in R without RStudio. 
+  - Data Viewer
+  - Keep track of environment
+  - Access to function and package documentation
 
 - Download the most recent version of R from https://cran.rstudio.com/ 
+- The website will offer you the correct version for your OS
+- As of `r lubridate::day(today())` `r lubridate::month(today(), label = TRUE)`, the most recent R version is 4.0.0! 
+
+## Installing RStudio
 
 - Go to https://rstudio.com/products/rstudio/download/#download 
+- Or Google: 
+  > Download RStudio
 
-![](https://raw.githubusercontent.com/basm92/R_Introduction/master/Miscellaneous/lecture1_1.png)
+![](data/lecture1_1.png)
 
-### Windows 
+## Windows Users
+
 - Select the appropriate installer (for Windows: .exe)
 
 - Follow the setup wizard: the default options are fine. Make sure to select ' 64-bit Files', 'Message translations' and 'Core Files', under components. 
@@ -31,7 +71,7 @@ This lecture covers three aspects: installing R and Rstudio, familiarizing ourse
 
 - Determine whether you want shortcuts on your desktop, wait until the wizard has finished and start Rstudio. 
 
-### Mac
+## MacOS Users
 
 - Download and install the most recent version of R from https://cran.rstudio.com/ (This should be straightforward)
 
@@ -41,7 +81,7 @@ This lecture covers three aspects: installing R and Rstudio, familiarizing ourse
 
 - Double-click it to open, and then drag and drop it to your applications folder.
 
-### UNIX/Linux
+## UNIX/Linux
 
 - Download and install the most recent version of R from https://cran.rstudio.com/ (This should be straightforward)
 
@@ -49,24 +89,66 @@ This lecture covers three aspects: installing R and Rstudio, familiarizing ourse
 
 - Select the appropriate installer (for Ubuntu/Debian: .deb), and an install wizard will guide you through the rest of the process. 
 
-## Getting Started
 
-### Setting our working directory
+## Getting Started: Setting our working directory
 
 Once you've opened Rstudio, the standard layout will look something like this: 
 
-![](https://raw.githubusercontent.com/basm92/R_Introduction/master/Miscellaneous/lecture1_2.png)
-Let's first open our `.Rmd` file that we've just downloaded from my [Github page](http://www.github.com/basm92/R_Introduction). We go to File > Open File, and we select the markdown document `Lecture1.Rmd` which we've just downloaded. 
+![](data/Screen Shot 2020-05-16 at 12.51.49.png)
 
-We will start by specifying our working directory. Our working directory determines from which file path we will create, or load our files by default. It is important to specify your working directory not on a web-server (such as one starting with `SOLIS`) but on a hard-drive. The UU interface sometimes frustrates writing and saving files from R to a server-environment. You can see your default working directory by the following command:
+## The RStudio User Interface
+
+By default, RStudio has 4 panels:
+
+- A script editor
+- The console
+- The environment
+- Viewer
+
+What do you do with each of them?
+
+## RStudio User Interface
+
+- Console:
+  
+  The console is a place where you enter code, and see the output of the code (in general, but not always).
+  
+- A script editor:
+
+  The script editor is the place where you enter your code with the objective of storing it. If you don't see it, click the + icon on the upper left of Rstudio -> New R Script.
+  
+- Environment:
+
+  This is a place to keep track of your objects: data.frames, variables, but even connections and history (we'll get there). 
+  
+- Viewer:
+
+  By default, the viewer Works as Finder on Mac, or Windows Explorer, but it also shows the output of Visualizations under Plots, it gives an overview of all your installed and loaded packages, and shows **function documentation**. 
+  
+## RStudio
+
+Let's first open our `.Rmd` file, the file that contains these lecture notes from [the course Github page](https://github.com/Introduction-to-R/Lecture-Slides/tree/master/Rmd). 
+
+In RStudio, we go to File > Open File, and we select the markdown document `Lecture1.Rmd` which we've just downloaded. Scroll to the part in the lecture where you can see this.
+
+**Hint:** You can use the search function in your operating system to look for specific terms (and it also includes a Find + Replace tool!). 
+
+
+## Getting our Working Directory
+
+We will start by specifying our **working directory**. Our working directory determines from which file path we will create, or load our files by default. It is advisable to put your work somewhere on a hard-drive. Sometimes, a network server frustrates writing and saving files from R to a server-environment. You can see your default working directory by the following command:
 
 ```{r}
 getwd()
 ```
 
-Put your mouse cursor in the above chunk, and press CTRL+Enter, or alternatively, type `r getwd()` in the console, and press enter. 
+Put your mouse cursor in the above chunk, and press CTRL+Enter, or alternatively, type `getwd()` in the console, and press enter. 
 
-Now, let's set our working directory. You set your working directory by using the `setwd()` command, specifying a directory between brackets, and using quotation marks: `r "exampledirectory/bas"`. Setting your working directory depends on your operating system: In Windows, you specify your working directory using: 
+## Setting our Working Directory
+
+Now, let's set our working directory. You set your working directory by using the `setwd()` command, specifying a directory between brackets, and using quotation marks: `setwd("exampledirectory/bas")`. 
+
+The file path to your working directory depends on your operating system: In Windows, you specify your working directory using: 
 
 ```{r eval = FALSE}
 setwd("C:/Documents/My/Working/Directory")
@@ -84,24 +166,48 @@ On a UNIX system:
 setwd("/home/user/Documents/MyWorkingDirectory")
 ```
 
-You can also use the GUI of Rstudio to change your working directory: Session > Set Working Directory > Choose Location. I advice against using this option because I think it harms reproducibility. 
+## Setting a Working Directory
 
-### Changing the default look of Rstudio
+You can also use the GUI of Rstudio to change your working directory: Session > Set Working Directory > Choose Location. Let's now consider to get a _default_ R Working Directory. 
+
+A default working directory is the directory that is your Working Directory if you start up RStudio and do not indicate any other WD. You can go to RStudio > Preferences > General:
+
+![](data/Screen Shot 2020-05-16 at 13.30.49.png)
+
+## Setting a default directory
+
+Alternatively, you can change your *.Rprofile* file. An *.Rprofile* file is a script that automatically runs. You should be careful with putting things into this file, but a default working directory could be a good thing to put in there. 
+
+The easiest way to change your .Rprofile is the following:
+
+```{r eval = FALSE}
+usethis:: edit_r_profile()
+```
+
+**Don't remove anything from this file**, and simply add the command:
+`setwd("File/Path/To/Your/New/WD/")`
+
+Make sure to specify the file path in a way appropriate to your OS (e.g. Windows users: `C://My/Dir`)
+
+## Changing the default look of Rstudio
 
 In order to make this a little bit less boring, let us pick a nice custom look of Rstudio first (this will also make you look like an experienced programmer):
 
 Let's go to Tools > Global Options > Appearance, pick a nice Editor theme and/or font, and click apply!
 
-### Installing our first packages
+## Installing our first packages
 
-Let us now attempt to install our first packages. Packages contain functions that help us in doing what we want to do in an efficient way. Not using packages comes down to attempting to reinvent the wheel: we would have to do everything using base R syntax, whereas some other people have already used base R syntax to write very complicated functions, of which we can make use! 
+Now, our RStudio is fully set-up! We can continue by installing our **first packages!**
 
-Let's install the __tidyverse__! In fact, tidyverse is not so much a package as it is a **set** of packages facilitating data treatment. Try and run the following code chunk:
+Packages contain functions that help us in doing what we want to do in an efficient, and often easy way. Not using packages comes down to attempting to reinvent the wheel: we would have to do everything using base R syntax, whereas some other people have already used base R syntax to write very complicated functions, of which we can make use.
+
+Let us install the __tidyverse__! In fact, tidyverse is not so much a package as it is a **set** of packages facilitating data treatment. Try and run the following code chunk:
 
 ```{r eval = FALSE}
 install.packages('tidyverse')
 ```
 
+## Installation of `tidyverse`
 After we've installed our package, which just means that R put the appropriate files in the appropriate folder on your computer, we have to load it before we can use its functions. Loading a package is done as follows:
 
 ```{r}
