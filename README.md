@@ -26,6 +26,7 @@ Alternatively, you can just [fork](https://help.github.com/en/enterprise/2.13/us
 | 11      | Statistics: Time series models                        | Here   | Here |
 | 12      | Web scraping: server-side                             | Here   | Here |
 | 13      | Web scraping: API's                                   | Here   | Here |
+| 14      | Data Transparency                                     | Here   | Here |
 | 14      | Reproducible research: RMarkdown - Basics             | Here   | Here |
 | 15      | Reproducible research: RMarkdown - Rpubs, Blogdown    | Here   | Here |
 
