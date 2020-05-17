@@ -36,13 +36,27 @@ In its most basic capacity, R can serve as a calculator:
 
 Oftentimes, we might want to assign the value of a calculation to a certain _object_, and continue using the object. To that end, there are three different ways to do this in R: 
 
-```{r}
+```{r assignment}
 x <- 5 + 1
 
 x = 4+3
 
 5 - 3/2 -> x
 ```
+
+## Variable Assignment
+
+Most programmers prefer `x <- 5 + 1` over all other alternatives. However, what matters is that you be consistent. 
+
+Have a look at the following:
+
+```{r other calc}
+1:5
+
+2 / 1:5
+
+```
+
 Now, let us try to acquaint ourselves with the basic syntax of R. R contains several example dataset with which we can practise. For example, here is Iris:
 
 ```{r}
