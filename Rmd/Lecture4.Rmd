@@ -1,0 +1,44 @@
+---
+title: "Lecture 4: Packages, `swirl()`, Functions, `for` loops"
+author: "Bas Machielsen"
+date: "5/17/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Programme
+
+In this lecture, we will treat four (very important) aspects of R programming. 
+
+- Packages
+- `swirl()`, a package for learning and practising R 
+- Functions
+- `for` loops
+
+# Packages
+
+## Installing packages
+
+## Vignettes
+
+## Function documentation
+
+# swirl()
+
+
+# Functions
+
+# `for` and other loops
+
+## For
+
+## While
+
+
+## Alternatives for `for` and other loops in R
+
+Next lecture, the `apply()` function family. 
+
